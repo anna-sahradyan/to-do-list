@@ -18,6 +18,7 @@ a {
 
 body {
     position: relative;
+    width: 100%;
     min-height: 100dvh;
     background-image: url('../img/to-do.jpg');
     background-repeat: no-repeat;
