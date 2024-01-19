@@ -1,10 +1,10 @@
 import React from 'react';
-import TaskForm from "../../Page/form/TaskForm";
+import TaskContainer from "../../Page/task/taskContainer/TaskContainer";
 
 const Home = () => {
     return (
         <>
-         <TaskForm/>
+         <TaskContainer/>
         </>
     );
 };

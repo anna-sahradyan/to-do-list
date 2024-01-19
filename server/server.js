@@ -1,4 +1,4 @@
-const fastify = require("fastify")({ logger: true });
+const fastify = require("fastify")({logger: true});
 const mongoose = require("mongoose");
 const fastifyCors = require("@fastify/cors");
 const configureDatabase = require("./config/databaseDB");
@@ -7,10 +7,18 @@ const databaseConfig = {
     uri: process.env.MONGODB_URI,
     options: {},
 };
+const configureRoutes = () => {
+    const taskRoutes = require("./routes/task.router");
+    // const commentRoutes = require("./routes/comment.router");
+    fastify.register(taskRoutes, {prefix: "/api/v1/tasks"});
+    // fastify.register(commentRoutes, {prefix: "/api/v1/comment"});
+};
+
+
 const startServer = async () => {
     try {
         fastify.register(fastifyCors, {
-            origin: "*", // You can customize the allowed origin(s) here
+            origin: ["*"],
             methods: ["GET", "POST", "PUT", "DELETE"],
         });
         await fastify.listen({
@@ -25,6 +33,7 @@ const startServer = async () => {
 
 const start = async () => {
     try {
+        await configureRoutes();
         await configureDatabase(databaseConfig);
         await startServer();
     } catch (err) {

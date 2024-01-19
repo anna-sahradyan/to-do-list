@@ -13,13 +13,17 @@ import {
     TextField,
 } from "@mui/material";
 import SearchTask from "../searchPage/SearchTask";
+import {useDispatch} from "react-redux";
+import {createTasksAsyncThunk} from "../../redux/features/tasks/tasksSlice";
 
 const TaskForm = () => {
     const [task, setTask] = useState({
         title: "",
         body: "",
-        priority: "",
+        priority: "low",
+        status: "queue"
     });
+    const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
@@ -30,8 +34,10 @@ const TaskForm = () => {
         setOpen(false);
         setTask("");
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("Task Object:", task);
+       await dispatch(createTasksAsyncThunk(task))
     }
 
     return (<>
@@ -59,7 +65,7 @@ const TaskForm = () => {
                             multiline
                             maxRows={4}
                             sx={{margin: 1}}
-                            value={task.title || ""}
+                            value={task.title }
                             onChange={e => setTask({...task, title: e.target.value})}
                         />
                         <TextField
@@ -69,7 +75,7 @@ const TaskForm = () => {
                             multiline
                             maxRows={4}
                             sx={{margin: 1}}
-                            value={task.body || ""}
+                            value={task.body }
                             onChange={e => setTask({...task, body: e.target.value})}
                         />
                         <TextField
@@ -78,7 +84,7 @@ const TaskForm = () => {
                             label="Priority"
                             select
                             sx={{margin: 1}}
-                            value={task.priority || ''}
+                            value={task.priority || 'low'}
                             onChange={e => setTask({...task, priority: e.target.value})}
                         >
                             <MenuItem value="low">Low</MenuItem>
